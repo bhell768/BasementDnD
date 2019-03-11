@@ -22,7 +22,6 @@
 
 <style scoped>
     .home-hero {
-        background: url('https://vignette.wikia.nocookie.net/geneitaiyo/images/1/1a/Gears.svg/revision/latest/scale-to-width-down/441?cb=20130814192547');
         background-size: 35% 35%;
         background-repeat: no-repeat;
         background-position: 50% 7%;

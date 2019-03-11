@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using BasementDnD.Services;
 using VueCliMiddleware;
 
 namespace BasementDnD
@@ -28,6 +29,8 @@ namespace BasementDnD
             services.AddSingleton(persistentConfig);
 
             services.AddSingleton<IHelloRepository, HelloPostgresRepository>();
+
+            services.AddScoped<CharacterService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
