@@ -20,6 +20,14 @@
             } catch (err) {
                 console.log(err)
             }
+        },
+        async delete(url, params) {
+            try {
+                let response = await axios.delete(url, { params })
+                return response
+            } catch (err) {
+                console.log(err)
+            }
         }
     };
 </script>

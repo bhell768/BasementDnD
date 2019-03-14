@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using BasementDnD.Services;
+using BasementDnD.Models;
+using BasementDnD.Controllers;
+
 using VueCliMiddleware;
 
 namespace BasementDnD

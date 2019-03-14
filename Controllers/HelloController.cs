@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BasementDnD.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class HelloController : Controller
     {
         private IHelloRepository HelloRepository { get; set; }
@@ -13,7 +13,7 @@ namespace BasementDnD.Controllers
             HelloRepository = helloRepository;
         }
 
-        [HttpPost("[action]")]
+        [HttpPost]
         public HelloResponse GreetInfo([FromBody]HelloRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Input))
@@ -30,7 +30,7 @@ namespace BasementDnD.Controllers
             };
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public HelloResponse GreetInfoDb([FromQuery]HelloRequest request)
         {            
             if (string.IsNullOrWhiteSpace(request.Input))

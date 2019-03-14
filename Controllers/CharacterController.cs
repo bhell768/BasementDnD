@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using BasementDnD.Models;
 using BasementDnD.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
 
 namespace BasementDnD.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class CharacterController : ControllerBase
     {
         private readonly CharacterService _characterService;
@@ -16,10 +18,9 @@ namespace BasementDnD.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Character>> Get()
+        public List<Character> Get()
         {
-            List<Character> result = _characterService.Get();
-            return result;
+            return _characterService.Get();
         }
 
         [HttpGet("{id:length(24)}", Name = "GetCharacter")]
@@ -34,31 +35,35 @@ namespace BasementDnD.Controllers
 
             return character;
         }
+        //Movie m = JsonConvert.DeserializeObject<Movie>(json);
 
         [HttpPost]
-        public ActionResult<Character> Create(Character character)
+        public IActionResult Create([FromBody]Character characterIn)
         {
-            _characterService.Create(character);
+            
+            _characterService.Create(characterIn);
 
-            return CreatedAtRoute("GetCharacter", new {id = character.Id.ToString()}, character);
+            //CreatedAtRoute("GetCharacter", new {id = character.Id.ToString()}, character);
+
+            return NoContent();
         }
 
-        [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, Character characterIn)
+        [HttpPost]
+        public IActionResult Update([FromBody] Character characterIn)
         {
-            var character = _characterService.Get(id);
+            var character = _characterService.Get(characterIn.Id);
 
             if (character == null)
             {
                 return NotFound();
             }
 
-            _characterService.Update(id, characterIn);
+            _characterService.Update(characterIn.Id, characterIn);
 
             return NoContent();
         }
 
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete]
         public IActionResult Delete(string id)
         {
             var character = _characterService.Get(id);
