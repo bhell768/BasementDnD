@@ -16,10 +16,14 @@ namespace BasementDnD.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Character>> Get()
+        public CharacterResponse Get()
         {
             List<Character> result = _characterService.Get();
-            return result;
+            return new CharacterResponse
+            {
+                Result = $"{result}"
+            };
+            
         }
 
         [HttpGet("{id:length(24)}", Name = "GetCharacter")]
@@ -71,6 +75,11 @@ namespace BasementDnD.Controllers
             _characterService.Remove(character.Id);
 
             return NoContent();
+        }
+
+        public class CharacterResponse
+        {
+            public string Result {get; set;}
         }
     }
 }
