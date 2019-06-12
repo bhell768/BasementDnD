@@ -1,19 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using BasementDnD.Models;
+using BasementDnD.Services.Abstract;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
-namespace BasementDnD.Services
+namespace BasementDnD.Services.Concrete
 {
-    public class CharacterService
+    public class CharacterService: ICharacterService
     {
         private readonly IMongoCollection<Character> _characters;
 
         public CharacterService(IConfiguration config)
         {
             var client = new MongoClient(config.GetConnectionString("BasementDnDDB"));
-            var database = client.GetDatabase("BasementDnDDb");
+            var database = client.GetDatabase("BasementDnDCharacter");
             _characters = database.GetCollection<Character>("Character");
         }
 
