@@ -1,0 +1,14 @@
+//install mongodb
+
+//setting up the directory path for the database
+//needs to be run on server startup
+//use included script to add to startup
+mongod --dbpath ~/BasementDnDDB
+
+//creating the database
+
+mongo
+
+use BasemetnDnDCharacter
+
+db.createCollection('Character')

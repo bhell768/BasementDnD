@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using BasementDnD.Services;
+using BasementDnD.Services.Abstract;
+using BasementDnD.Services.Concrete;
 using BasementDnD.Models;
 using BasementDnD.Controllers;
 
@@ -27,13 +28,7 @@ namespace BasementDnD
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var persistentConfig = new PersistentSettings();
-            Configuration.Bind("PersistentSettings", persistentConfig);
-            services.AddSingleton(persistentConfig);
-
-            services.AddSingleton<IHelloRepository, HelloPostgresRepository>();
-
-            services.AddScoped<CharacterService>();
+            AddAppServices(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -81,6 +76,19 @@ namespace BasementDnD
                     // spa.UseProxyToSpaDevelopmentServer("http://localhost:8080"); // your Vue app port
                 }
             });
+        }
+
+        private void AddAppServices(IServiceCollection services)
+        {
+            var persistentConfig = new PersistentSettings();
+            Configuration.Bind("PersistentSettings", persistentConfig);
+            services.AddSingleton(persistentConfig);
+
+            services.AddSingleton<IHelloRepository, HelloPostgresRepository>();
+            services.AddSingleton<ICharacterService ,CharacterService>();
+            services.AddSingleton<ILoginService ,LoginServiceMySql>();
+
+
         }
     }
 }

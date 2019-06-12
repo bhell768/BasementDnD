@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using BasementDnD.Models;
-using BasementDnD.Services;
+using BasementDnD.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -10,9 +10,9 @@ namespace BasementDnD.Controllers
     [Route("api/[controller]/[action]")]
     public class CharacterController : ControllerBase
     {
-        private readonly CharacterService _characterService;
+        private readonly ICharacterService _characterService;
 
-        public CharacterController(CharacterService characterService)
+        public CharacterController(ICharacterService characterService)
         {
             _characterService = characterService;
         }

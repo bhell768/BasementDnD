@@ -8,7 +8,7 @@ namespace BasementDnD.Configuration
     public class PersistentSettings
     {
         public PostgresConfiguration Postgres { get; set; }
-
+        public MySqlConfiguration MySql {get; set;}
     }
 
     public class PostgresConfiguration
@@ -20,5 +20,14 @@ namespace BasementDnD.Configuration
         public string UserName { get; set; }
 
         public string Password { get; set; }
+    }
+
+    public class MySqlConfiguration
+    {
+        public string ServerName {get; set;}
+        public string DatabaseName {get; set;}
+        public string UserName {get; set;}
+        public string Password {get; set;}
+        public string Port {get; set;}
     }
 }
