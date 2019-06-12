@@ -1,6 +1,0 @@
-https://pimylifeup.com/raspberry-pi-ssl-lets-encrypt/
-
-serialitation of objects should be the best way to store non database objects
-
-https://css-tricks.com/snippets/css/complete-guide-grid/
-
