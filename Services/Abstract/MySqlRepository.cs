@@ -16,7 +16,7 @@ namespace BasementDnD.Services.Abstract
         {
             get 
             {
-             return new MySqlConnection($"server={PersistentSettings.MySql.ServerName}; user id={PersistentSettings.MySql.UserName};password={PersistentSettings.MySql.Password};port={PersistentSettings.MySql.Port};database={PersistentSettings.MySql.DatabaseName};");
+             return new MySqlConnection($"server={PersistentSettings.MySql.ServerName};port={PersistentSettings.MySql.Port};database={PersistentSettings.MySql.DatabaseName};uid={PersistentSettings.MySql.UserName};pwd={PersistentSettings.MySql.Password};");
             }
         }
 

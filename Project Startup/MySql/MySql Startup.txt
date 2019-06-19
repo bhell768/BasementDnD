@@ -2,10 +2,12 @@
 //setup mariadb with root user and dotnetServer user
 //current password for dotnetServer = dotnetServerPassword
 
+//create database
+create database dndsql;
 //create table
-create table test (id int not null auto_increment primary key, name varchar(255), password varchar(255));
+create table login (id int not null auto_increment primary key, name varchar(255), password varchar(255));
 
 //insert data
-insert into test (name, password) value ('Bob', 'password');
-insert into test (name, password) value ('Alic', '12345');
-insert into test (name, password) value ('Grace', 'Password123');
+insert into login (name, password) value ('Bob', 'password');
+insert into login (name, password) value ('Alic', '12345');
+insert into login (name, password) value ('Grace', 'Password123');

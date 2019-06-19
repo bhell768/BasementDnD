@@ -17,17 +17,20 @@ namespace BasementDnD.Services.Concrete
         }
         public async Task<IEnumerable<Login>> Get()
         {
-            await Connection.OpenAsync();
-            var cmd = Connection.CreateCommand();
-            cmd.CommandText = @"SELECT `Id`, `Name`, `Password` FROM `test` ORDER BY `Id` DESC LIMIT 10;";
-            return await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            using (var connection = Connection)
+            {
+                await connection.OpenAsync();
+                var cmd = connection.CreateCommand() as MySqlCommand;
+                cmd.CommandText = @"SELECT `Id`, `Name`, `Password` FROM `login` ORDER BY `Id` DESC LIMIT 10;";
+                return await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            }
         }
 
         public async Task<Login> Get(int id)
         {
             await Connection.OpenAsync();
             var cmd = Connection.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT `Id`, `Name`, `Password` FROM `test` WHERE `Id` = @id";
+            cmd.CommandText = @"SELECT `Id`, `Name`, `Password` FROM `login` WHERE `Id` = @id";
             BindId(cmd, id);
             var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
             return result.Count > 0 ? result[0] : null;
@@ -37,7 +40,7 @@ namespace BasementDnD.Services.Concrete
         {
             await Connection.OpenAsync();
             var cmd = Connection.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO `test` (`Name`, `Password`) VALUES (@name, @password);";
+            cmd.CommandText = @"INSERT INTO `login` (`Name`, `Password`) VALUES (@name, @password);";
             BindParams(cmd, login);
             await cmd.ExecuteNonQueryAsync();
             return (int) cmd.LastInsertedId;
@@ -47,7 +50,7 @@ namespace BasementDnD.Services.Concrete
         {
             await Connection.OpenAsync();
             var cmd = Connection.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE `test` SET `Name` = @name, `Password` = @password WHERE `Id` = @id;";
+            cmd.CommandText = @"UPDATE `login` SET `Name` = @name, `Password` = @password WHERE `Id` = @id;";
             BindParams(cmd, loginIn);
             BindId(cmd, id);
             await cmd.ExecuteNonQueryAsync();
@@ -61,7 +64,7 @@ namespace BasementDnD.Services.Concrete
             try
             {
                 var cmd = Connection.CreateCommand();
-                cmd.CommandText = @"DELETE FROM `BlogPost` where `ID` = @id";
+                cmd.CommandText = @"DELETE FROM `login` where `ID` = @id";
                 BindId(cmd, loginIn.Id);
                 await cmd.ExecuteNonQueryAsync();
                 await txn.CommitAsync();
@@ -81,7 +84,7 @@ namespace BasementDnD.Services.Concrete
             try
             {
                 var cmd = Connection.CreateCommand();
-                cmd.CommandText = @"DELETE FROM `BlogPost`";
+                cmd.CommandText = @"DELETE FROM `login`";
                 BindId(cmd, id);
                 await cmd.ExecuteNonQueryAsync();
                 await txn.CommitAsync();
