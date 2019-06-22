@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using BasementDnD.Configuration;
 using BasementDnD.Repositories.Abstract;
 using BasementDnD.Repositories.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -28,15 +30,25 @@ namespace BasementDnD
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
             AddAppServices(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddHttpContextAccessor();
 
             // In production, the vue files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +67,11 @@ namespace BasementDnD
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseCookiePolicy();
+            //setup authentication before mvc
+            app.UseAuthentication();
+
 
             app.UseMvc(routes =>
             {
@@ -83,12 +100,9 @@ namespace BasementDnD
             var persistentConfig = new PersistentSettings();
             Configuration.Bind("PersistentSettings", persistentConfig);
             services.AddSingleton(persistentConfig);
-
             services.AddSingleton<IHelloRepository, HelloPostgresRepository>();
             services.AddSingleton<ICharacterService ,CharacterService>();
             services.AddSingleton<ILoginService ,LoginServiceMySql>();
-
-
         }
     }
 }
