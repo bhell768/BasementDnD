@@ -9,8 +9,10 @@ namespace BasementDnD.Services.Abstract
 {
     public interface ILoginService
     {
-        Task<IEnumerable<Login>> Get();
+        Task<string> Login(string username, string password);
+        Task<string> Logout();
         Task<Login> Get(int id);
+        Task<string> GetInfo();
         Task<int> Create(Login login);
         Task<bool> Update(int id, Login loginIn);
         Task<bool> Remove(Login loginIn);
