@@ -1,33 +1,51 @@
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using BasementDnD.Models;
+using Newtonsoft.Json;
 using BasementDnD.Services.Abstract;
+using System;
 
 namespace BasementDnD.Controllers
 {
-    
-    [Route("api/[controller]/[Action]")]
-    public class LoginController
+    [Route("api/[controller]/[action]")]
+    public class LoginController : ControllerBase
     {
+
         private ILoginService LoginService {get; set;}
 
         public LoginController(ILoginService loginService)
         {
             LoginService = loginService;
         }
-        
-        [HttpGet]
-        public async Task<IActionResult> GetLatest()
+
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody]Login user)
         {
-            var result = await LoginService.Get();
+            var result = await LoginService.Login(user.Name, user.Password);
+            if (result == "Invalid Login")
+            {
+                return new NotFoundResult();
+            }
             return new OkObjectResult(result);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetOne(int id)
+        [HttpGet]
+
+        public async Task<IActionResult> Logout()
         {
-            var result = await LoginService.Get();
-            if (result == null)
+            var result = await LoginService.Logout();
+            if(result == "Logged Out")
+            {
+                return new OkObjectResult(result);
+            }
+            return new OkObjectResult("Something has gone wrone");
+        }
+
+        public async Task<IActionResult> GetInfo()
+        {
+            var result = await LoginService.GetInfo();
+            if(result == null)
             {
                 return new NotFoundResult();
             }
@@ -35,7 +53,7 @@ namespace BasementDnD.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Login body)
+        public async Task<IActionResult> SignUp([FromBody]Login body)
         {
             var result = await LoginService.Create(body);
             return new OkObjectResult(result);
