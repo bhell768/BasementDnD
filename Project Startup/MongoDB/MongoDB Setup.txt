@@ -9,6 +9,6 @@ mongod --dbpath ~/BasementDnDDB
 
 mongo
 
-use BasemetnDnDCharacter
+use BasementDnDCharacter
 
 db.createCollection('Character')

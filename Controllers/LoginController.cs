@@ -60,7 +60,7 @@ namespace BasementDnD.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOne(int id, [FromBody]Login body)
+        public async Task<IActionResult> PutOne(byte[] id, [FromBody]Login body)
         {
             var result = await LoginService.Get(id);
             if (result == null)
@@ -72,7 +72,7 @@ namespace BasementDnD.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOne(int id)
+        public async Task<IActionResult> DeleteOne(byte[] id)
         {
             var result = await LoginService.Get(id);
             if (result == null)
