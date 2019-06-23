@@ -11,11 +11,11 @@ namespace BasementDnD.Services.Abstract
     {
         Task<string> Login(string username, string password);
         Task<string> Logout();
-        Task<Login> Get(int id);
+        Task<Login> Get(byte[] id);
         Task<string> GetInfo();
         Task<int> Create(Login login);
-        Task<bool> Update(int id, Login loginIn);
+        Task<bool> Update(byte[] id, Login loginIn);
         Task<bool> Remove(Login loginIn);
-        Task<bool> Remove(int id); 
+        Task<bool> Remove(byte[] id); 
     }
 }

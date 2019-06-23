@@ -3,13 +3,11 @@ using System.Data;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using BasementDnD.Configuration;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Logging;
 using BasementDnD.Services.Abstract;
@@ -33,8 +31,8 @@ namespace BasementDnD.Services.Concrete
             {
                 await conn.OpenAsync();
                 var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"SELECT `Id`, `Name`, `Password` FROM `login` WHERE `Name` = @name";
-                BindName(cmd, username);
+                cmd.CommandText = @"SELECT `Id_Bin`, `Name`,`Username`, `Password` FROM `users` WHERE `Username` = @username";
+                BindUName(cmd, username);
                 var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
                 user = result.Count > 0 ? result[0] : null;
             }
@@ -44,8 +42,9 @@ namespace BasementDnD.Services.Concrete
             }
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Role, "Tester"), //add in roles and full name
+                new Claim("FullName", user.Name),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -82,7 +81,7 @@ namespace BasementDnD.Services.Concrete
             return _httpContextAccessor.HttpContext.User.Identity.Name;
         }
 
-        public async Task<Login> Get(int id)
+        public async Task<Login> Get(byte[] id)
         {
             using (var conn = Connection)
             {
@@ -107,7 +106,7 @@ namespace BasementDnD.Services.Concrete
             }
         }
 
-        public async Task<bool> Update(int id, Login loginIn)
+        public async Task<bool> Update(byte[] id, Login loginIn)
         {
             using (var conn = Connection)
             {
@@ -131,8 +130,8 @@ namespace BasementDnD.Services.Concrete
                 try
                 {
                     var cmd = conn.CreateCommand();
-                    cmd.CommandText = @"DELETE FROM `login` where `ID` = @id";
-                    BindId(cmd, loginIn.Id);
+                    cmd.CommandText = @"DELETE FROM `login` where `ID_Bin` = @id";
+                    BindId(cmd, loginIn.Id_Bin);
                     await cmd.ExecuteNonQueryAsync();
                     await txn.CommitAsync();
                 }
@@ -145,7 +144,7 @@ namespace BasementDnD.Services.Concrete
             }
         }
 
-        public async Task<bool> Remove(int id)
+        public async Task<bool> Remove(byte[] id)
         {
             using (var conn = Connection)
             {
@@ -168,23 +167,23 @@ namespace BasementDnD.Services.Concrete
             }
         }
 
-        private void BindId(MySqlCommand cmd, int id)
+        private void BindId(MySqlCommand cmd, byte[] id)
         {
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@id",
-                DbType = DbType.Int32,
+                DbType = DbType.Binary,
                 Value = id,
             });
         }
 
-        private void BindName(MySqlCommand cmd, string name)
+        private void BindUName(MySqlCommand cmd, string username)
         {
             cmd.Parameters.Add(new MySqlParameter
             {
-                ParameterName = "@name",
+                ParameterName = "@username",
                 DbType = DbType.String,
-                Value = name,
+                Value = username,
             });
         }
 
@@ -212,9 +211,10 @@ namespace BasementDnD.Services.Concrete
                 {
                     var login = new Login()
                     {
-                        Id = await reader.GetFieldValueAsync<int>(0),
+                        Id_Bin = await reader.GetFieldValueAsync<byte[]>(0),
                         Name = await reader.GetFieldValueAsync<string>(1),
-                        Password = await reader.GetFieldValueAsync<string>(2)
+                        Username = await reader.GetFieldValueAsync<string>(2),
+                        Password = await reader.GetFieldValueAsync<string>(3)
                     };
                     logins.Add(login);
                 }

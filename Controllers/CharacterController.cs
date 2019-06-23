@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BasementDnD.Models;
 using BasementDnD.Services.Abstract;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -18,7 +19,7 @@ namespace BasementDnD.Controllers
         }
 
         [HttpGet]
-        public List<Character> Get()
+        public Task<List<Character>> Get()
         {
             return _characterService.Get();
         }
