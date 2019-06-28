@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -24,147 +25,110 @@ namespace BasementDnD.Services.Concrete
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<string> Login(string username, string password)
+        public async Task<LoginInfoResponse> Login(LoginRequest request)
         {
             Login user;
             using (var conn = Connection)
             {
                 await conn.OpenAsync();
                 var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"SELECT `Id_Bin`, `Name`,`Username`, `Password` FROM `users` WHERE `Username` = @username";
-                BindUName(cmd, username);
+                cmd.CommandText = @"SELECT `Id_Bin`, `Name`,`Username`, `Email`, `Password` FROM `users` WHERE `Username` = @username";
+                BindUName(cmd, request.Username);
                 var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
                 user = result.Count > 0 ? result[0] : null;
             }
-            if(user == null || user.Password != password)
+            //will replace with pbkdf2 sha512 for hashing
+            if(user == null || user.Password != request.Password)
             {
-                    return "Invalid Login";
+                    return null;
             }
+            
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
+                new Claim("ID", Convert.ToBase64String(user.Id_Bin)),
                 new Claim(ClaimTypes.Role, "Tester"), //add in roles and full name
-                new Claim("FullName", user.Name),
+                new Claim("FullName", user.Displayname),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties
             {
-                AllowRefresh = true
+                AllowRefresh = true,
 
-                //IsPersitent = user defined value
+                IsPersistent = request.Persistent,
 
 
             };
 
-            await _httpContextAccessor.HttpContext.SignInAsync(
+            _httpContextAccessor.HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme, 
                 new ClaimsPrincipal(claimsIdentity), 
                 authProperties);
 
-            return "User Logged In";
+            return await GetInfo();
         }
 
-        public async Task<string> Logout()
+        public async Task<bool> Logout()
         {
             //not sure what can go wrong here
             //will implement any exception handeling
             //not sure what happens if a logout is attempted on a not logged in user
-            await _httpContextAccessor.HttpContext.SignOutAsync(
+            _httpContextAccessor.HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
-            return "Logged Out";
+            return true;
         }
 
-        public async Task<string> GetInfo()
+        public async Task<LoginInfoResponse> GetInfo()
         {
-            return _httpContextAccessor.HttpContext.User.Identity.Name;
-        }
-
-        public async Task<Login> Get(byte[] id)
-        {
-            using (var conn = Connection)
+            LoginInfoResponse info = new LoginInfoResponse();
+            byte[] isLogged = VerifyLogin();
+            if(isLogged == null)
             {
-                await conn.OpenAsync();
-                var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"SELECT `Id`, `Name`, `Password` FROM `login` WHERE `Id` = @id";
-                BindId(cmd, id);
-                var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
-                return result.Count > 0 ? result[0] : null;
+                info.Islogged = false;
+                info.Username = "";
+                info.Displayname = "";
             }
+            else
+            {
+                info.Islogged = true;
+                info.Username = _httpContextAccessor.HttpContext.User.Identity.Name;
+                info.Displayname = _httpContextAccessor.HttpContext.User.FindFirst("FullName").Value;
+            }
+            return info;
         }
-        public async Task<int> Create(Login login)
+
+        public async Task<LoginInfoResponse> SignUp(SignupRequest request)
         {
+            byte[] id = null;
             using (var conn = Connection)
             {
                 await conn.OpenAsync();
                 var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"INSERT INTO `login` (`Name`, `Password`) VALUES (@name, @password);";
-                BindParams(cmd, login);
+                cmd.CommandText = @"INSERT INTO `users` (`Id_Bin`, `Name`,`Username`, `Email`,`Password`) VALUES (unhex(replace(uuid(),'-','')), @name, @username, @email, @password);";
+                BindParams(cmd, request);
                 await cmd.ExecuteNonQueryAsync();
-                return (int) cmd.LastInsertedId;
+                //cmd.LastInsertedId returns long of the autogenerated id
+                //does not work with uuid
             }
+
+            //just create request and call the login that will handle finding the uuid
+            LoginRequest logRequest = new LoginRequest();
+            logRequest.Username = request.Username;
+            logRequest.Password = request.Password;
+            logRequest.Persistent = request.Persistent;
+
+            return await Login(logRequest);
         }
 
-        public async Task<bool> Update(byte[] id, Login loginIn)
+        public byte[] VerifyLogin()
         {
-            using (var conn = Connection)
+            if(!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
-                await conn.OpenAsync();
-                var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"UPDATE `login` SET `Name` = @name, `Password` = @password WHERE `Id` = @id;";
-                BindParams(cmd, loginIn);
-                BindId(cmd, id);
-                await cmd.ExecuteNonQueryAsync();
-                return true;
-                //I think the begin transaction and rollback async can be used here
+                return null;
             }
-        }
-
-        public async Task<bool> Remove(Login loginIn)
-        {
-            using (var conn = Connection)
-            {
-                await conn.OpenAsync();
-                var txn = await conn.BeginTransactionAsync();
-                try
-                {
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = @"DELETE FROM `login` where `ID_Bin` = @id";
-                    BindId(cmd, loginIn.Id_Bin);
-                    await cmd.ExecuteNonQueryAsync();
-                    await txn.CommitAsync();
-                }
-                catch
-                {
-                    await txn.RollbackAsync();
-                    throw;
-                }
-                return true;
-            }
-        }
-
-        public async Task<bool> Remove(byte[] id)
-        {
-            using (var conn = Connection)
-            {
-                await conn.OpenAsync();
-                var txn = await conn.BeginTransactionAsync();
-                try
-                {
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = @"DELETE FROM `login`";
-                    BindId(cmd, id);
-                    await cmd.ExecuteNonQueryAsync();
-                    await txn.CommitAsync();
-                }
-                catch
-                {
-                    await txn.RollbackAsync();
-                    throw;
-                }
-                return true;
-            }
+            return Convert.FromBase64String(_httpContextAccessor.HttpContext.User.FindFirst("ID").Value);
         }
 
         private void BindId(MySqlCommand cmd, byte[] id)
@@ -186,22 +150,35 @@ namespace BasementDnD.Services.Concrete
                 Value = username,
             });
         }
-
-        private void BindParams(MySqlCommand cmd, Login login)
+        
+        private void BindParams(MySqlCommand cmd, SignupRequest request)
         {
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@username",
+                DbType = DbType.String,
+                Value = request.Username,
+            });
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@email",
+                DbType = DbType.String,
+                Value = request.Email,
+            });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@name",
                 DbType = DbType.String,
-                Value = login.Name,
+                Value = request.Displayname,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@password",
                 DbType = DbType.String,
-                Value = login.Password,
+                Value = request.Password,
             });
         }
+        
         private async Task<List<Login>> ReadAllAsync(DbDataReader reader)
         {
             var logins = new List<Login>();
@@ -212,9 +189,10 @@ namespace BasementDnD.Services.Concrete
                     var login = new Login()
                     {
                         Id_Bin = await reader.GetFieldValueAsync<byte[]>(0),
-                        Name = await reader.GetFieldValueAsync<string>(1),
+                        Displayname = await reader.GetFieldValueAsync<string>(1),
                         Username = await reader.GetFieldValueAsync<string>(2),
-                        Password = await reader.GetFieldValueAsync<string>(3)
+                        Email = await reader.GetFieldValueAsync<string>(3),
+                        Password = await reader.GetFieldValueAsync<string>(4)
                     };
                     logins.Add(login);
                 }

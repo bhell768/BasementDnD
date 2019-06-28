@@ -20,12 +20,12 @@ namespace BasementDnD.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]Login user)
+        public async Task<IActionResult> Login([FromBody]LoginRequest user)
         {
-            var result = await LoginService.Login(user.Name, user.Password);
-            if (result == "Invalid Login")
+            LoginInfoResponse result = await LoginService.Login(user);
+            if (result == null)
             {
-                return new NotFoundResult();
+                return new UnauthorizedResult();
             }
             return new OkObjectResult(result);
         }
@@ -35,53 +35,31 @@ namespace BasementDnD.Controllers
         public async Task<IActionResult> Logout()
         {
             var result = await LoginService.Logout();
-            if(result == "Logged Out")
+            if(result)
             {
                 return new OkObjectResult(result);
             }
-            return new OkObjectResult("Something has gone wrone");
+            return new BadRequestResult();
         }
 
         public async Task<IActionResult> GetInfo()
         {
-            var result = await LoginService.GetInfo();
-            if(result == null)
-            {
-                return new NotFoundResult();
-            }
+            LoginInfoResponse result = await LoginService.GetInfo();
             return new OkObjectResult(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUp([FromBody]Login body)
+        public async Task<IActionResult> SignUp([FromBody]SignupRequest signup)
         {
-            var result = await LoginService.Create(body);
-            return new OkObjectResult(result);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOne(byte[] id, [FromBody]Login body)
-        {
-            var result = await LoginService.Get(id);
-            if (result == null)
+            if(signup.Password == signup.VPassword)
             {
-                return new NotFoundResult();
+                var result = await LoginService.SignUp(signup);
+                return new OkObjectResult(result);
             }
-            var updateBool = await LoginService.Update(id, body);
-            return new OkObjectResult(result);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOne(byte[] id)
-        {
-            var result = await LoginService.Get(id);
-            if (result == null)
+            else
             {
-                return new NotFoundResult();
+                return new OkObjectResult("Password doesn't match");
             }
-            var updateBool = await LoginService.Remove(id);
-            return new OkResult();
         }
-
     }
 }
