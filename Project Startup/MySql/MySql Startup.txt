@@ -5,6 +5,7 @@
 //create database
 create database dndsql;
 //create table
+drop table if exists users;
 create table users(
 id_bin binary(16), 
 id_text varchar(36) generated always as
@@ -18,11 +19,12 @@ id_text varchar(36) generated always as
 ) virtual,
 name varchar(256), 
 username varchar(256),
+email varchar(256),
 password varchar(256));
 
 //insert data
-insert into users (id_bin, name, username, password)
-   values(unhex(replace(uuid(),'-','')),'Bob Joe', 'bjoe123','123password');
+insert into users (id_bin, name, username, email, password)
+   values(unhex(replace(uuid(),'-','')),'Bob Joe', 'bjoe123', 'bobjoe@email.com', '123password');
 
 
 //character to user table

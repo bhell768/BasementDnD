@@ -9,13 +9,12 @@ namespace BasementDnD.Services.Abstract
 {
     public interface ILoginService
     {
-        Task<string> Login(string username, string password);
-        Task<string> Logout();
-        Task<Login> Get(byte[] id);
-        Task<string> GetInfo();
-        Task<int> Create(Login login);
-        Task<bool> Update(byte[] id, Login loginIn);
-        Task<bool> Remove(Login loginIn);
-        Task<bool> Remove(byte[] id); 
+        Task<LoginInfoResponse> Login(LoginRequest request);
+        Task<bool> Logout();
+        Task<LoginInfoResponse> GetInfo();
+        byte[] VerifyLogin();
+        //implement when change to hashing
+        //Task<bool> CheckPassword(byte[] id, string password);
+        Task<LoginInfoResponse> SignUp(SignupRequest request);
     }
 }
