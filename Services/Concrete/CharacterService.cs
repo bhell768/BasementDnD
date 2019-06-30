@@ -17,66 +17,119 @@ namespace BasementDnD.Services.Concrete
     {
         private readonly IMongoCollection<Character> _characters;
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILoginService _loginService;
+        private readonly ICharacterOwnership _characterOwnership;
 
-        public CharacterService(IConfiguration config, IHttpContextAccessor httpContextAccessor, PersistentSettings persistentSettings) : base(persistentSettings)
+        public CharacterService(IConfiguration config, ICharacterOwnership characterOwnership, ILoginService loginService,PersistentSettings persistentSettings) : base(persistentSettings)
         {
             var client = new MongoClient(config.GetConnectionString("BasementDnDDB"));
             var database = client.GetDatabase("BasementDnDCharacter");
             _characters = database.GetCollection<Character>("Character");
-            _httpContextAccessor = httpContextAccessor;
+            _loginService = loginService;
+            _characterOwnership = characterOwnership;
         }
 
         public async Task<List<Character>> Get()
         {
-            var username =  _httpContextAccessor.HttpContext.User.Identity.Name;
-            if(username == null)
+            byte[] userID = _loginService.VerifyLogin();
+            if(userID == null)
             {
                 return null;
             }
-            using (var conn = Connection)
-            {
-                //thinking about seperating this into another service
-                await conn.OpenAsync();
-                var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"select `CharacterObjId` from users, userCharacters where users.id_bin = userCharacters.userId_bin and users.username = @username";
-                cmd.Parameters.Add(new MySqlParameter
-                {
-                    ParameterName = "@username",
-                    DbType = DbType.String,
-                    Value = username,
-                });
-                var objIds = await ReadAllAsync(await cmd.ExecuteReaderAsync());
+
+            var objIds = await _characterOwnership.GetAllCharacters(userID);
                 
-                return _characters.Find(character => objIds.Contains(character.Id)).ToList();
-            }
+            return _characters.Find(character => objIds.Contains(character.Id)).ToList();
+            
         }
         //TODO finish user access for other character services and setting user access for created by user
         public Character Get(string id)
         {
+            byte[] userID = _loginService.VerifyLogin();
+            if(userID == null)
+            {
+                return null;
+            }
+
+            var charID = _characterOwnership.CheckCharacter(userID, id);
+
+            if(charID == null)
+            {
+                return null;
+            }
+
             return _characters.Find<Character>(character => character.Id == id).FirstOrDefault();
         }
 
         public Character Create(Character character)
         {
+            byte[] userID = _loginService.VerifyLogin();
+            if(userID == null)
+            {
+                return null;
+            }
             _characters.InsertOne(character);
+            
+            var result = _characterOwnership.CreateCharacter(userID, character.Id);
 
             return character;
         }
 
-        public void Update(string id, Character characterIn)
+        public Character Update(string id, Character characterIn)
         {
+            byte[] userID = _loginService.VerifyLogin();
+            if(userID == null)
+            {
+                return null;
+            }
+
+            var charID = _characterOwnership.CheckCharacter(userID, id);
+
+            if(charID == null)
+            {
+                return null;
+            }
             _characters.ReplaceOne(character => character.Id == id, characterIn);
+
+            return characterIn;
         }
 
-        public void Remove(Character characterIn)
+        public bool Remove(Character characterIn)
         {
+            byte[] userID = _loginService.VerifyLogin();
+            if(userID == null)
+            {
+                return false;
+            }
+
+            var charID = _characterOwnership.CheckCharacter(userID, characterIn.Id);
+
+            if(charID == null)
+            {
+                return false;
+            }
             _characters.DeleteOne(character => character.Id == characterIn.Id);
+
+            return true;
         }
 
-        public void Remove(string id)
+        public bool Remove(string id)
         {
+            byte[] userID = _loginService.VerifyLogin();
+            if(userID == null)
+            {
+                return false;
+            }
+
+            var charID = _characterOwnership.CheckCharacter(userID, id);
+
+            if(charID == null)
+            {
+                return false;
+            }
             _characters.DeleteOne(character => character.Id == id);
+
+            return true;
         }
 
         private async Task<List<string>> ReadAllAsync(DbDataReader reader)
