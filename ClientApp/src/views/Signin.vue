@@ -54,7 +54,7 @@
                 label="Verify Password"
             ></v-text-field>
             <v-checkbox
-                v-model="user.persistent"
+                v-model="signup.persistent"
                 label="Keep Me Logged In"
             ></v-checkbox>
             <v-btn v-on:click="signUp">SignUp</v-btn>

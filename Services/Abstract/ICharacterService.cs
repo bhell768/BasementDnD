@@ -11,8 +11,8 @@ namespace BasementDnD.Services.Abstract
         Task<List<Character>> Get();
         Character Get(string id);
         Character Create(Character character);
-        void Update(string id, Character characterIn);
-        void Remove(Character characterIn);
-        void Remove(string id);
+        Character Update(string id, Character characterIn);
+        bool Remove(Character characterIn);
+        bool Remove(string id);
     }
 }

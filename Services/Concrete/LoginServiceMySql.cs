@@ -101,7 +101,6 @@ namespace BasementDnD.Services.Concrete
 
         public async Task<LoginInfoResponse> SignUp(SignupRequest request)
         {
-            byte[] id = null;
             using (var conn = Connection)
             {
                 await conn.OpenAsync();
