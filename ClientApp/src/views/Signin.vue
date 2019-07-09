@@ -1,14 +1,14 @@
 ﻿<template>
     <v-container v-if="info.islogged" fluid>
         <v-layout>
-            <h1>Signout Page</h1>
+            <h1>Sign Out</h1>
             <h3>Hello {{info.displayname}}</h3>
             <v-btn v-on:click="signOut">Sign Out</v-btn>
         </v-layout>
     </v-container>
-    <v-container v-else fluid>
+    <v-container v-else-if="signin" fluid>
         <v-layout>
-            <h1>Signin Page</h1>
+            <h1>Sign In</h1>
             <v-text-field
                 v-model="user.username"
                 type="text"
@@ -25,9 +25,12 @@
             ></v-checkbox>
             <v-btn v-on:click="signIn">Sign In</v-btn>
         </v-layout>
-        <v-container fluid>
+        <v-alert :value="loginerror" type="error">The username or password was incorrect</v-alert>
+        <v-btn v-on:click="signUpToggle">Sign Up</v-btn>
+    </v-container>
+    <v-container v-else fluid>
         <v-layout>
-            <h1>SignUp</h1>
+            <h1>Sign Up</h1>
             <v-text-field
                 v-model="signup.username"
                 type="text"
@@ -59,7 +62,7 @@
             ></v-checkbox>
             <v-btn v-on:click="signUp">SignUp</v-btn>
         </v-layout>
-    </v-container>
+        <v-btn v-on:click="signUpToggle">Sign In</v-btn>
     </v-container>
 </template>
 <script>
@@ -73,19 +76,29 @@ export default {
                 username: "",
                 displayname: ""
             },
+            signin: true,
             logins: null,
             user: {},
-            signup: {}
+            signup: {},
+            loginerror: false
         }      
     },
     methods: {
         async signIn() {
             let response = await Api.post('./api/login/login', this.user)
-            console.log(response)
+            if(response.data){
+                this.getInfo()
+                this.user = {}
+                this.loginerror = false
+            }
+            this.loginerror = true
         },
         async signOut(){
             let response = await Api.get('./api/login/logout')
-            console.log(response)
+            if(response.data)
+            {
+                this.getInfo()
+            }
         },
         async getInfo() {
             let response = await Api.get('./Api/login/getinfo')
@@ -93,7 +106,12 @@ export default {
         },
         async signUp(){
             let response = await Api.post('./Api/login/signup', this.signup)
-            console.log(response)
+            if(response.data) {
+                this.getInfo()
+            }
+        },
+        signUpToggle() {
+            this.signin = !this.signin
         }
     },
     mounted: function () {

@@ -28,6 +28,7 @@ insert into users (id_bin, name, username, email, password)
 
 
 //character to user table
+drop table if exists userCharacters;
 create table userCharacters(
 userId_bin binary(16),
 characterObjId varchar(24));
