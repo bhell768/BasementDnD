@@ -156,6 +156,7 @@ export default {
             this.characterUpdate = true
         },
         updateCancel(){
+            this.characterSelect = this.characterTemplate
             this.characterUpdate = false
         }
     },

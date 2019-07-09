@@ -19,6 +19,7 @@
                 return response
             } catch (err) {
                 console.log(err)
+                return false
             }
         },
         async delete(url, params) {

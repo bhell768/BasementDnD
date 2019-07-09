@@ -25,7 +25,7 @@ namespace BasementDnD.Services.Concrete
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<LoginInfoResponse> Login(LoginRequest request)
+        public async Task<bool> Login(LoginRequest request)
         {
             Login user;
             using (var conn = Connection)
@@ -40,7 +40,7 @@ namespace BasementDnD.Services.Concrete
             //will replace with pbkdf2 sha512 for hashing
             if(user == null || user.Password != request.Password)
             {
-                    return null;
+                    return false;
             }
             
             var claims = new List<Claim>
@@ -67,7 +67,7 @@ namespace BasementDnD.Services.Concrete
                 new ClaimsPrincipal(claimsIdentity), 
                 authProperties);
 
-            return await GetInfo();
+            return true;
         }
 
         public async Task<bool> Logout()
@@ -99,7 +99,7 @@ namespace BasementDnD.Services.Concrete
             return info;
         }
 
-        public async Task<LoginInfoResponse> SignUp(SignupRequest request)
+        public async Task<bool> SignUp(SignupRequest request)
         {
             using (var conn = Connection)
             {

@@ -9,7 +9,7 @@
             <v-text-field
                 v-model="abilityMod"
                 type="text"
-                readonly=true
+                readonly
                 label="Ability Modifier"
             ></v-text-field>
         </v-layout>

@@ -22,8 +22,8 @@ namespace BasementDnD.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]LoginRequest user)
         {
-            LoginInfoResponse result = await LoginService.Login(user);
-            if (result == null)
+            bool result = await LoginService.Login(user);
+            if (!result)
             {
                 return new UnauthorizedResult();
             }
@@ -53,7 +53,7 @@ namespace BasementDnD.Controllers
         {
             if(signup.Password == signup.VPassword)
             {
-                var result = await LoginService.SignUp(signup);
+                bool result = await LoginService.SignUp(signup);
                 return new OkObjectResult(result);
             }
             else
