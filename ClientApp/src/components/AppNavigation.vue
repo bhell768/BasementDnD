@@ -84,7 +84,7 @@ export default {
             drawer: false,
             homeItem: { title: 'Basement DnD', to: '/'},
             leftItems: [
-                { title: 'Character', itemLinks: [{ itemTitle: 'Create Character', to: 'create-character' }, { itemTitle: 'Edit Character', to: 'edit-character' }]},
+                { title: 'Character', itemLinks: [{ itemTitle: 'Create Character', to: 'create-character' }]},
                 { title: 'Api Test', itemLinks: [{itemTitle: 'Test', to: 'hello'}]}
             ],
             rightItems: [{ title: 'Sign In', to: 'sign-in' }],
