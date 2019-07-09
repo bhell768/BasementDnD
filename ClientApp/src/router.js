@@ -32,11 +32,6 @@ export default new Router({
             path: '/create-character',
             name: 'create-character',
             component: () => import('./views/CreateCharacter.vue')
-        },
-        {
-            path: '/edit-character',
-            name: 'edit-character',
-            component: () => import('./views/EditCharacter.vue')
         }
     ]
 });
