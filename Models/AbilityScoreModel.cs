@@ -9,6 +9,9 @@ namespace BasementDnD.Models
         [BsonElement("AbilityName")]
         public string AbilityName {get; set;}
 
+        [BsonElement("AbilityCode")]
+        public string AbilityCode {get; set;}
+
         [BsonElement("AbilityScore")]
         public int AbilityScore {get; set;}
 
