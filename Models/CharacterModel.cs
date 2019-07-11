@@ -17,7 +17,7 @@ namespace BasementDnD.Models
         public string Race {get; set;}
 
         [BsonElement("Class")]
-        public string Class {get; set;}
+        public CharacterClass Class {get; set;}
 
         [BsonElement("HitPoints")]
         public int HitPoints{get; set;}
@@ -30,6 +30,9 @@ namespace BasementDnD.Models
 
         [BsonElement("AbilityScores")]
         public List<Ability> AbilityScores{get; set;}
+
+        [BsonElement("Skills")]
+        public List<Skill> Skills { get; set; }
 
         [BsonElement("Description")]
         public string Description {get; set;}
