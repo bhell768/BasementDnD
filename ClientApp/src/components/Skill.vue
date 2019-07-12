@@ -5,7 +5,19 @@
             v-model="skill.isClassSkill" 
             disabled
             :label="`Class Skill`"></v-checkbox>
-        <p>{{skill.abilityMod}}</p>
+        <p>{{totalBonus}}</p>
+        <p>{{skill.abilityModType}}</p>
+        <v-text-field
+                v-model="skill.skillRanks"
+                type="text"
+                label="Ranks"
+                mask="##"
+                :rules="[rules.min, rules.max]"
+                append-icon="add"
+                @click:append="increment"
+                prepend-inner-icon="remove"
+                @click:prepend-inner="decrement"
+            ></v-text-field>
     </v-layout>
 </template>
 
@@ -17,22 +29,34 @@ export default {
     },
     data() {
         return {
-            skill: this.skillIn
+            skill: this.skillIn,
+            rules: {
+                min: v => v>=0 || "Value cannot be negative",
+                max: v => v <= 20 || "Value cannot be greater than 20"
+            }
+        }
+    },
+    methods: {
+        increment() {
+            this.ability.abilityScore = parseInt(this.ability.abilityScore, 10) + 1
+        },
+        decrement() {
+            this.ability.abilityScore = parseInt(this.ability.abilityScore, 10) - 1
         }
     },
     computed: {
         totalBonus: function() {
             let classBonus = 0
-            if(this.skill.isClassSkill){
+            if(this.skill.isClassSkill && this.isTrained){
                 classBonus = 3
             }
-            if(!this.skill.unTrained && !this.isTrained){
+            if(!(this.skill.untrained) && !(this.isTrained)){
                 return 0
             }
-            return this.skill.abMod + this.skill.ranks + classBonus +this.skill.miscMod
+            return Number(this.skill.abilityMod) + Number(this.skill.skillRanks) + classBonus + Number(this.skill.miscMod)
         },
         isTrained: function() {
-            return (this.skill.ranks > 0)
+            return (this.skill.skillRanks > 0)
         }
     }
 }

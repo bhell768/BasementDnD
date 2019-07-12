@@ -5,6 +5,12 @@
                 v-model="ability.abilityScore"
                 type="text"
                 label="Ability Score"
+                mask="##"
+                :rules="[rules.min, rules.max]"
+                append-icon="add"
+                @click:append="increment"
+                prepend-inner-icon="remove"
+                @click:prepend-inner="decrement"
             ></v-text-field>
             <v-text-field
                 v-model="abilityMod"
@@ -23,7 +29,19 @@ export default {
     },
     data() {
         return {
-            ability: this.abilityIn
+            ability: this.abilityIn,
+            rules: {
+                min: v => v>=0 || "Value cannot be negative",
+                max: v => v <= 20 || "Value cannot be greater than 20"
+            }
+        }
+    },
+    methods: {
+        increment() {
+            this.ability.abilityScore = parseInt(this.ability.abilityScore, 10) + 1
+        },
+        decrement() {
+            this.ability.abilityScore = parseInt(this.ability.abilityScore, 10) - 1
         }
     },
     watch: {

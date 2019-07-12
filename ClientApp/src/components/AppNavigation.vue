@@ -11,9 +11,9 @@
                     </v-list-tile>
                     <v-divider :key="`divider-${homeItem.title}`"></v-divider>
                 </template>
-                <template v-for="item in leftItems">
+                <template v-for="(item,index) in leftItems">
                 <v-list-group
-                    :key="item.title">
+                    :key="`${item.title}-${index}`">
                     <v-list-tile slot="activator">
                         <v-list-tile-content>
                             <v-list-tile-title>{{item.title}}</v-list-tile-title>
@@ -21,7 +21,7 @@
                     </v-list-tile>
                     <v-list-tile
                         v-for="subItem in item.itemLinks"
-                        :key="subItem.title"
+                        :key="`${subItem.title}-${index}`"
                         router :to="subItem.to">
                         <v-list-tile-content>
                             <v-list-tile-title>{{subItem.itemTitle}}</v-list-tile-title>
@@ -30,8 +30,8 @@
                 </v-list-group>
                 <v-divider :key="`divider-${item.title}`"></v-divider>
                 </template>
-                <template v-for="item in rightItems">
-                    <v-list-tile :key="item.title">
+                <template v-for="(item, index) in rightItems">
+                    <v-list-tile :key="`${item.title}-${index}`">
                         <router-link :to="item.to">
                             <v-list-tile-content>
                                 {{item.title}}
@@ -54,13 +54,13 @@
             </router-link>
             <v-menu offset-y
                 v-for="(item, index) in leftItems"
-                v-bind:key="index"
+                v-bind:key="`${item.title}-${index}`"
                 class="hidden-sm-and-down">
                 <v-btn flat slot="activator">
                     <span>{{item.title}}</span>
                 </v-btn>
                 <v-list>
-                    <v-list-tile v-for="link in item.itemLinks" :key="link.itemTitle" router :to="link.to">
+                    <v-list-tile v-for="(link, index) in item.itemLinks" :key="`${link.itemTitle}-${index}`" router :to="link.to">
                         <v-list-tile-title>{{link.itemTitle}}</v-list-tile-title>
                     </v-list-tile>
                 </v-list>
@@ -70,7 +70,7 @@
                    class="hidden-sm-and-down"
                    v-for="(item, index) in rightItems"
                    :to="item.to"
-                   v-bind:key="index">{{ item.title }}</v-btn>
+                   v-bind:key="`#${item.title}-${index}`">{{ item.title }}</v-btn>
         </v-toolbar>
         <!-- toolbar end -->
     </span>
