@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using BasementDnD.Models;
+using BasementDnD.Models.Login;
 using System.Threading.Tasks;
 
 

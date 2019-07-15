@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Logging;
 using BasementDnD.Services.Abstract;
+using BasementDnD.Models.Login;
 using BasementDnD.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 

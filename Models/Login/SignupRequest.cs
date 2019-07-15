@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace BasementDnD.Models
+namespace BasementDnD.Models.Login
 {
     public class SignupRequest
     {

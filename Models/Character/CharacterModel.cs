@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using MongoDB.Bson;
+using BasementDnD.Models.CClass;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BasementDnD.Models
+namespace BasementDnD.Models.Character
 {
     public class Character
     {
@@ -17,7 +18,7 @@ namespace BasementDnD.Models
         public string Race {get; set;}
 
         [BsonElement("Class")]
-        public CharacterClass Class {get; set;}
+        public Class Class {get; set;}
 
         [BsonElement("HitPoints")]
         public int HitPoints{get; set;}

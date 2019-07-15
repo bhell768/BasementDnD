@@ -2,7 +2,7 @@
     <v-container v-if="info.islogged" fluid>
         <v-layout>
             <h1>Sign Out</h1>
-            <h3>Hello {{info.displayname}}</h3>
+            <h3>Hello {{ info.displayname }}</h3>
             <v-btn v-on:click="signOut">Sign Out</v-btn>
         </v-layout>
     </v-container>
@@ -25,7 +25,9 @@
             ></v-checkbox>
             <v-btn v-on:click="signIn">Sign In</v-btn>
         </v-layout>
-        <v-alert :value="loginerror" type="error">The username or password was incorrect</v-alert>
+        <v-alert :value="loginerror" type="error"
+            >The username or password was incorrect</v-alert
+        >
         <v-btn v-on:click="signUpToggle">Sign Up</v-btn>
     </v-container>
     <v-container v-else fluid>
@@ -69,58 +71,54 @@
 import Api from '@/components/Api';
 export default {
     name: 'Signin',
-    data () {
+    data() {
         return {
             info: {
                 islogged: false,
-                username: "",
-                displayname: ""
+                username: '',
+                displayname: ''
             },
             signin: true,
             logins: null,
             user: {},
             signup: {},
             loginerror: false
-        }      
+        };
     },
     methods: {
         async signIn() {
-            let response = await Api.post('./api/login/login', this.user)
-            if(response.data){
-                this.getInfo()
-                this.user = {}
-                this.loginerror = false
+            let response = await Api.post('./api/login/login', this.user);
+            if (response.data) {
+                this.getInfo();
+                this.user = {};
+                this.loginerror = false;
             }
-            this.loginerror = true
+            this.loginerror = true;
         },
-        async signOut(){
-            let response = await Api.get('./api/login/logout')
-            if(response.data)
-            {
-                this.getInfo()
+        async signOut() {
+            let response = await Api.get('./api/login/logout');
+            if (response.data) {
+                this.getInfo();
             }
         },
         async getInfo() {
-            let response = await Api.get('./Api/login/getinfo')
-            this.info = response.data
+            let response = await Api.get('./Api/login/getinfo');
+            this.info = response.data;
         },
-        async signUp(){
-            let response = await Api.post('./Api/login/signup', this.signup)
-            if(response.data) {
-                this.getInfo()
+        async signUp() {
+            let response = await Api.post('./Api/login/signup', this.signup);
+            if (response.data) {
+                this.getInfo();
             }
         },
         signUpToggle() {
-            this.signin = !this.signin
+            this.signin = !this.signin;
         }
     },
-    mounted: function () {
-        
-    },
+    mounted: function() {},
     created() {
-        this.getInfo()
+        this.getInfo();
     }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

@@ -1,9 +1,10 @@
 <template>
     <v-layout>
-        <h4>{{classSkill.skillName}}</h4>
-        <v-checkbox 
-        v-model="classSkill.isClassSkill" 
-        :label="`Class Skill`"></v-checkbox>
+        <h4>{{ classSkill.skillName }}</h4>
+        <v-checkbox
+            v-model="classSkill.isClassSkill"
+            :label="`Class Skill`"
+        ></v-checkbox>
     </v-layout>
 </template>
 
@@ -16,9 +17,9 @@ export default {
     data() {
         return {
             classSkill: this.classSkillIn
-        }
+        };
     }
-}
+};
 </script>
 
 <style scoped></style>

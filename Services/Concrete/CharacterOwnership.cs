@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.Common;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using BasementDnD.Models;
+using System.Collections.Generic;
 using BasementDnD.Configuration;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;

@@ -9,6 +9,7 @@ namespace BasementDnD.Configuration
     {
         public PostgresConfiguration Postgres { get; set; }
         public MySqlConfiguration MySql {get; set;}
+        public MongoConfiguration Mongo {get; set;}
     }
 
     public class PostgresConfiguration
@@ -29,5 +30,11 @@ namespace BasementDnD.Configuration
         public string UserName {get; set;}
         public string Password {get; set;}
         public string Port {get; set;}
+    }
+
+    public class MongoConfiguration
+    {
+        public string Client {get; set;}
+        public string CharacterDatabase {get; set;}
     }
 }
