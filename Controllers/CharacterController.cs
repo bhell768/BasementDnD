@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using BasementDnD.Models;
+using BasementDnD.Models.Character;
 using BasementDnD.Services.Abstract;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;

@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using BasementDnD.Models;
+using BasementDnD.Models.Character;
 
 namespace BasementDnD.Services.Abstract
 {

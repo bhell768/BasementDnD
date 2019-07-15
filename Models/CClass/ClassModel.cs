@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BasementDnD.Models
+namespace BasementDnD.Models.CClass
 {
-    public class CharacterClass
+    public class Class
     {
         [BsonElement("ClassName")]
         public string ClassName { get; set; }

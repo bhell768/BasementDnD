@@ -3,7 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Common;
-using BasementDnD.Models;
+using BasementDnD.Models.Character;
 using BasementDnD.Configuration;
 using BasementDnD.Services.Abstract;
 using Microsoft.Extensions.Configuration;
@@ -19,11 +19,13 @@ namespace BasementDnD.Services.Concrete
 
         private readonly ILoginService _loginService;
         private readonly ICharacterOwnership _characterOwnership;
+        private PersistentSettings PersistentSettings {get; set;}
 
         public CharacterService(IConfiguration config, ICharacterOwnership characterOwnership, ILoginService loginService,PersistentSettings persistentSettings) : base(persistentSettings)
         {
-            var client = new MongoClient(config.GetConnectionString("BasementDnDDB"));
-            var database = client.GetDatabase("BasementDnDCharacter");
+            PersistentSettings = persistentSettings;
+            var client = new MongoClient(config.GetConnectionString(PersistentSettings.Mongo.Client));
+            var database = client.GetDatabase(PersistentSettings.Mongo.CharacterDatabase);
             _characters = database.GetCollection<Character>("Character");
             _loginService = loginService;
             _characterOwnership = characterOwnership;

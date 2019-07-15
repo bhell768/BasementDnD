@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using BasementDnD.Models;
+using BasementDnD.Models.Login;
 using Newtonsoft.Json;
 using BasementDnD.Services.Abstract;
 using System;
