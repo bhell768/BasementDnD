@@ -69,3 +69,142 @@ db.CoreRace.insertOne({'RaceName' : 'Elves',
                                  {'LanguageName' : 'Orc', 'IsStarter' : false},
                                  {'LanguageName' : 'Sylvan', 'IsStarter' : false}]
 }})
+
+db.createCollection('SkillTemplate')
+
+
+db.SkillTemplate.insertOne({
+    "SkillName" : "Acrobatics",
+    "SkillCode" : "ACR",
+    "AbilityModType" : "DEX",
+    "Untrained" : false,
+    "TrainedOnly" : false,
+    "ShortDescription" : "You can keep your balance while narrow or treacherous serfaces. You can also dive, flip, jump, and roll to avoid attacks and overcome obstacles.",
+    "CheckDescription" : "You can use Acrobatics to move on narrow surfaces and uneven ground without falling. A successful check allows you to move at half speed across such surfaces--only one check is needed per round. Use the following table to determine the base DC, which is then modified by the Acrobatics skill modifiers. While you are using Acrobatics in this way, you are considered flat-footed and lose your Dexterity bonus to your AC (if any). If you take damage while using Acrobatics, you must immidiately make another Acrobatics check at the same DC to avoid falling or being knocked prone. \u00B6\u00F80\u00F8\u00B6\u0009In addition, you can move through a threatened square without provoking an attack of opportunity from an enemy by using Acrobatics. When moving in this way, you move at half speed. You can move at full speed by increasing the DC of the check by 10. You cannot use Acrobatics to move past foes if your speed is reduced due to carrying a medium or heavy load or wearing medium or heavy armor. If an ability allows you to move at full speed under such conditions, you can use Acrobatics to move past foes. You can use Acrobatics in this way while prone, but doing so requires a full-round action to move 5 feet, and the DC is increades by 5. If you attempt to move through an enemy's space and fail the check, you lose the move action and provoke an attack of opportunity. \u00B6\u00F81\u00F8\u00B6\u0009Finally, you can use the Acrobatics skill to make jumps or to soften a fall. The base DC to make a jump is equal to the distance to be crossed (if horizontal) or four times the height to be reached (if vertical). These DCs double if you do not have at least 10 feet of space to get a running start. The only Acrobatics modifiers that apply are those concerning the surface you are jumping from. If you fail this check by 4 or less, you can attempt a DC 20 Reflex save to grab hold of the other side after having missed the jump. If you fail by 5 or more, you fail to make the jump and fall (or land prone, in the case of a vertical jump). Creatures with a base land speed above 30 feet receive a +4 racial bonus on Acrobatics checks made to jump for every 10 feet of their speed above 30 feet. Creatures with a base land speed below 30 feet receive a -4 racial penalty on Acrobatics checks made to jump for every 10 feet of their speed below 30 feet. No jump can allow you to exceed your maximum movement for the round. For a running jump, the result of your Acrobatics check indicates the distance traveled in the jump (and if the check fails, the distance at which you actually land and fall prone). Halve this result for a standing long jump to determine where you land.\u0009When you deliberately fall any distance, even as a result of a missed jump, a DC 15 Acrobatics skill check allows you to ignore the first 10 feet fallen, although you still end up prone if you take damage from a fall. See the falling rules for further details.\u00B6\u00F82\u00F8\u00B6\u00B6\u00F83\u00F8\u00B6\u0009Many conditions can affect your chances of success with Acrobatics checks. The following modifiers to target DCs apply to all Acrobatics skill checks. The modifiers stack with one another, but only the most severe modifier for any one condition applies.\u00B6\u00F84\u00F8\u00B6",
+    "ActionDescription" : "None. An Acrobatics check is made as part of another action or as a reaction to a situation",
+    "TryAgainDescription" : "",
+    "SpecialDescription" : "If you have 3 or more ranks in Acrobatics, you gain a +3 dodge bonus to AC when fighting defensively instead of the usual +2, and a +6 dodge bonus to AC when taking the total defense action instead of the usual +4. \u0009If you have the Acrobatic feat, you get a bonus on Acrobatics checks(see Feats).",
+    "UntrainedDescription" : "",
+    "SkillTables" : [
+        {"TableTitle" : "",
+        "Headers" : ["Surface Width", "Base Acrobatics DC"],
+        "DataRows" : [["Greater than 3 feet wide", "0\u002A"],
+                      ["1-3 feet wide", "5\u002A"],
+                      ["7-11 inches wide", "10"],
+                      ["2-6 inches wide", "15"],
+                      ["Less than 2 inches wide", "20"]],
+        "FootNotes" : ["\u002A No Acrobatics check is needed to move across these surfaces unless the modifiers to the surface increase (see end of Check section) the DC to 10 or higher"],
+        "Position" : "C0"},
+        {"TableTitle" : "",
+        "Headers" : ["Situation", "Base Acrobatics DC\u002A"],
+        "DataRows" : [["Move through a threatened area", "Opponent\u0027s Combat Maneuver Defense"],
+                      ["Move through an enemy\u0027s space", "5+ opponent\u0027s Combat Maneuver Defense"]],
+        "FootNotes" : ["\u002A This DC is used to avoid an attack of opportunity due to movement. This DC increases by 2 for each additional opponent avoided in 1 round."],
+        "Position" : "C1"},
+        {"TableTitle" : "",
+        "Headers" : ["Long Jump", "Acrobatics DC"],
+        "DataRows" : [["5 feet", "5"],
+                      ["10 feet", "10"],
+                      ["15 feet", "15"],
+                      ["Greater than 15 feet", "+5 per 5 feet"]],
+        "FootNotes" : [],
+        "Position" : "C2"},
+        {"TableTitle" : "",
+        "Headers" : ["High Jump", "Acrobatics DC"],
+        "DataRows" : [["1 foot", "4"],
+                      ["2 feet", "8"],
+                      ["3 feet", "12"],
+                      ["4 feet", "16"],
+                      ["Greater than 4 feet", "+4 per 1 foot"]],
+        "FootNotes" : [],
+        "Position" : "C3"},
+        {"TableTitle" : "",
+        "Headers" : ["Acrobatics Modifiers", "DC Modifier"],
+        "DataRows" : [["Slightly obstructed (gravel, sand)", "+2"],
+                      ["Severely obstructed (cavern, rubble)", "+5"],
+                      ["Slightly slippery (wet)", "+2"],
+                      ["Severely slippery (icy)", "+5"],
+                      ["Slightly sloped (\u003C45\u00B0)", "+2"],
+                      ["Severely sloped (\u003E45\u00B0)","+5"],
+                      ["Slightly unsteady (boat in rough water)","+2"],
+                      ["Moderately unsteady (boat in a storm)", "+5"],
+                      ["Severely unsteady (earthquake)", "+10"],
+                      ["Move at full speed on narrow or uneaven surfaces", "+5\u002A"]],
+        "FootNotes" : ["\u002A This does not apply to checks made to jump."],
+        "Position" : "C4"}
+    ]})
+
+db.SkillTemplate.insertOne({
+    "SkillName" : "Appraise",
+    "SkillCode" : "APP",
+    "AbilityModType" : "INT",
+    "Untrained" : false,
+    "TrainedOnly" : false,
+    "ShortDescription" : "You can evaluate the monetary value of an object.",
+    "CheckDescription" : "A DC 20 Appraise check determines the value of a common item. If you succeed by 5 or more, you also determine if the item has magic properties, althrough this success does not grant knowledge of the magic item\u0027s abilities. If you fail the check by less than 5, you determine the price of that item to within 20\u0025 of its actual value. If you fail this check by 5 or more, the price is wildly inaccurate, subjec to GM discretion. Particularly rare or exotic items might increase the DC of this check by 5 or more. \u0009You can also use this check to determine the most valuable item viible in a treasure hoard. The DC of this check is generally 20 but can increase to as high as 30 for a particularly large hoard.",
+    "ActionDescription" : "Appraising an item takes 1 standard action. Determining the most valuable object in a treasuer hoard takes 1 full-round action.",
+    "TryAgainDescription" : "Additional attempts to Appraise an item reveal the same result.",
+    "SpecialDescription" : "A spellcaster with a raven familiar gains a +3 bonus on Appraise checks.",
+    "UntrainedDescription" : "",
+    "SkillTables" : []
+})
+
+db.SkillTemplate.insertOne({
+    "SkillName" : "Bluff",
+    "SkillCode" : "BLF",
+    "AbilityModType" : "CHA",
+    "Untrained" : false,
+    "TrainedOnly" : false,
+    "ShortDescription" : "You know how to tell a lie.",
+    "CheckDescription" : "Bluff is an opossed skill check against your opponent's Sense Motive skill. If you use Bluff to fool someone, with a successful check you convince your opponent that what you are saying is true. Bluff checks are modified depending upon the believability of the lie. The following modifiers are applied to the roll of the creature attempting to tell the lie. Not that some lies are so improbable that it is impossible to convince anyone that they are true (subjec to GM discretion). \u00B6\u00F80\u00F8\u00B6\u0009Feint: You can use Bluff to feint in combat, causing your opponent to be denied his Dexterity bonus to his AC against your next attck. The DC of this check is equal to 10 + you opponent\u0027s base attck bonus + you opponent\u0027s Wisdom modifier. If your opponent is trained in Sense Motive, the DC is instead equal to 10 + your opponent\u0027s Sense Motive bonus, if higher. For more information on feinting in combat, see Combat. \u0009Secret Messages: You can use Bluff to pass hidden messages along to another character without others understanding your true meaning by using innuendo to cloak your actual message. The DC of this check is 15 for simple messages and 20 for complex messages. If you are successful, the target automatically understands you, assuming you are communicating in a language that is understands. If you check fails by 5 or more, you deliver the wrong message. Other creatures that receive the message can decipher it by succeeding at an opposed Sense Motive check against your Bluff result.",
+    "ActionDescription" : "Attempting to deceive someone takes at least 1 round, but can possibly take longer if the lie is elaborate (as determined by the GM on a case-by-case basic). \u0009Feinthing in combat is a standard action. \u0009Using Bluff to deliver a secret message takes twice as long as the message would otherwise take to relay.",
+    "TryAgainDescription" : "If you fail to deceive someone, further attempts to deceive them are at a -10 penalty and may be impossible (GM discretion). \u0009You can attempt to feint against someone again if you fail. Secret messages can be relayed again if the first attempt fails.",
+    "SpecialDescription" : "A spellcaster with a viper familiar gains a +3 bonus on Bluff checks.",
+    "UntrainedDescription" : "",
+    "SkillTables" : [
+        {"TableTitle" : "",
+        "Headers" : ["Circumstances", "Bluff Modifier"],
+        "DataRows" : [["The target wants to believe you", "+5"],
+                      ["The lie is believable", "+0"],
+                      ["The lie is unlikely", "-5"],
+                      ["The lie is far-fetched", "-10"],
+                      ["The lie is impossible", "-20"],
+                      ["The target is druck or impaired", "+5"],
+                      ["You possess convincing proof", "up to +10"]],
+        "FootNotes" : [],
+        "Position" : "C0"}
+    ]
+})
+
+
+
+table finder -> \u00B6\u00F8#\u00F8\u00B6
+tab -> \u0009
+
+db.SkillTemplate.insertOne({
+    "SkillName" : "",
+    "SkillCode" : "",
+    "AbilityModType" : "",
+    "Untrained" : false,
+    "TrainedOnly" : false,
+    "ShortDescription" : "",
+    "CheckDescription" : "",
+    "ActionDescription" : "",
+    "TryAgainDescription" : "",
+    "SpecialDescription" : "",
+    "UntrainedDescription" : "",
+    "SkillTables" : [
+        {"TableTitle" : "",
+        "Headers" : [],
+        "DataRows" : [[],
+                      []],
+        "FootNotes" : [],
+        "Position" : ""},
+        {"TableTitle" : "",
+        "Headers" : [],
+        "DataRows" : [[],
+                      []],
+        "FootNotes" : [],
+        "Position" : ""}
+    ]
+})

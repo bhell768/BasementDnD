@@ -32,8 +32,7 @@ namespace BasementDnD.Models.Character
         [BsonElement("AbilityScores")]
         public List<Ability> AbilityScores{get; set;}
 
-        [BsonElement("Skills")]
-        public List<Skill> Skills { get; set; }
+        //TODO skill ranks go here
 
         [BsonElement("Description")]
         public string Description {get; set;}
