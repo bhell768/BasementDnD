@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using BasementDnD.Models;
+using BasementDnD.Models.Character;
 using BasementDnD.Services.Abstract;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -18,7 +19,7 @@ namespace BasementDnD.Controllers
         }
 
         [HttpGet]
-        public List<Character> Get()
+        public Task<List<Character>> Get()
         {
             return _characterService.Get();
         }
@@ -41,11 +42,14 @@ namespace BasementDnD.Controllers
         public IActionResult Create([FromBody]Character characterIn)
         {
             
-            _characterService.Create(characterIn);
+            var character = _characterService.Create(characterIn);
 
-            //CreatedAtRoute("GetCharacter", new {id = character.Id.ToString()}, character);
+            if(character == null)
+            {
+                return NotFound();
+            }
 
-            return NoContent();
+            return Ok(character);
         }
 
         [HttpPost]
@@ -58,9 +62,13 @@ namespace BasementDnD.Controllers
                 return NotFound();
             }
 
-            _characterService.Update(characterIn.Id, characterIn);
+            var uCharacter = _characterService.Update(characterIn.Id, characterIn);
+            if(uCharacter == null)
+            {
+                return NotFound();
+            }
 
-            return NoContent();
+            return Ok(uCharacter);
         }
 
         [HttpDelete]
@@ -73,7 +81,11 @@ namespace BasementDnD.Controllers
                 return NotFound();
             }
 
-            _characterService.Remove(character.Id);
+            var result = _characterService.Remove(character.Id);
+            if(!result)
+            {
+                return NotFound();
+            }
 
             return NoContent();
         }
