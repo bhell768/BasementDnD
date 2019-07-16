@@ -1,0 +1,99 @@
+//install mongodb
+
+//setting up the directory path for the database
+//needs to be run on server startup
+//use included script to add to startup
+mongod --dbpath ~/BasementDnDDB
+
+//creating the database
+
+mongo
+
+use BasementDnDCharacter
+
+db.createCollection('Character')
+
+db.createCollection('Race')
+
+db.createCollection('CoreRace')
+
+db.CoreRace.insertOne({'RaceName' : 'Example', 
+'ShortDescription' : 'This example is here to show the structure of this model. Removed and will no longer have real data pulled from the core rulebook for possible lisencing concerns.',
+'PhysicalDescription' : 'This is example text showing the description of this example. It is very simple but a powerful testing tool to show that the rest of this project works.',
+'Society' : 'The society of examples is very exampley with many traditions dating back to just when I wrote this.',
+'Relations' : 'Example get along well enough with some other examples like example2 but not example3 because I just made it up.',
+'AlignmentReligion' : 'Examples are normally true neutral but can occasionally be chaotic evil.',
+'Adventurers' : 'Examples might go out an adventure just because.',
+'MaleNames' : ['Example', 'Example', 'Example'],
+'FemaleNames' : ['Example','Example','Example'],
+'Traits' : {'RacialAbilityMods' : [{'Mod' :  2, 'AbilityCode' : 'CON', 'IsPickable' : false},
+                                   {'Mod' :  2, 'AbilityCode' : 'WIS', 'IsPickable' : false},
+                                   {'Mod' : -2, 'AbilityCode' : 'CHA', 'IsPickable' : false}],
+            'Size' : 'Medium',
+            'SpeedBase': 20,
+            'WeaponFam' : {'TypesProficient' : ['weapon1', 'weapon2', 'weapon3'],
+                           'IsNamedProficient' : true},
+            'RacialLanguages' : [{'LanguageName' : 'Common', 'IsStarter' : true},
+                                 {'LanguageName' : 'Example', 'IsStarter' : true},
+                                 {'LanguageName' : 'Other', 'IsStarter' : false},
+                                 {'LanguageName' : 'Another', 'IsStarter' : false}]
+}})
+
+
+db.createCollection('SkillTemplate')
+
+
+db.SkillTemplate.insertOne({
+    "SkillName" : "Acrobatics",
+    "SkillCode" : "ACR",
+    "AbilityModType" : "DEX",
+    "Untrained" : false,
+    "TrainedOnly" : false,
+    "ShortDescription" : "Not sure how much of this shouldn't be in for lisencing restrictions but for now taking out all of the detailed information.",
+    "CheckDescription" : "The way to signify a paragraph start is with the tab unicode like this. \u0009Now this is a new paragraph. Vue will have methods to parse and format the display so lengthy data will look better. For inserting a table the sequence paragraph character slash 0 then number then slash 0 and finally paragraph character denotes where the table will be. Just like this. \u00B6\u00F80\u00F8\u00B6\u0009I suggest putting a new paragraph after the table. But see Vue handled and correctly insert the table that was denoted as C0 the C for check and the 0 to match with the 0 in the middle of the placemnet code.",
+    "ActionDescription" : "Here is where the discription of how long the action takes to make a check.",
+    "TryAgainDescription" : "Here is where the specifics of being able to try again if the first roll fails. If no description then there are no restrictions other than the time to make another check.",
+    "SpecialDescription" : "This is here for any extra facts that are pertinent to the skills use or bonuses from having a certain number of ranks.",
+    "UntrainedDescription" : "This is here for when a skill must be trained but might have some edge cases where the skill can be performed. If this is blank with no asterisk next to the skill then it can be performed untrained, If it is blank with an asterisk then there are no edge cases and cannot be performed unless skill ranks are put in to be trained.",
+    "SkillTables" : [
+        {"TableTitle" : "This is the title",
+        "Headers" : ["Header 1", "Header 2\u002A"],
+        "DataRows" : [["Row1 Data1", "Row1 Data2"],
+                      "Row2 Data1", "Row2 Data2"],
+                      "Row3 Data1", "Row3 Data2"]],
+        "FootNotes" : ["\u002A These footnotes might use and asterisk like this one or a numbered superscript. I'm using unicode so the characters are not confussed in the database."],
+        "Position" : "C0"}
+    ]})
+
+
+
+table finder -> \u00B6\u00F8#\u00F8\u00B6
+tab -> \u0009
+
+db.SkillTemplate.insertOne({
+    "SkillName" : "",
+    "SkillCode" : "",
+    "AbilityModType" : "",
+    "Untrained" : false,
+    "TrainedOnly" : false,
+    "ShortDescription" : "",
+    "CheckDescription" : "",
+    "ActionDescription" : "",
+    "TryAgainDescription" : "",
+    "SpecialDescription" : "",
+    "UntrainedDescription" : "",
+    "SkillTables" : [
+        {"TableTitle" : "",
+        "Headers" : [],
+        "DataRows" : [[],
+                      []],
+        "FootNotes" : [],
+        "Position" : ""},
+        {"TableTitle" : "",
+        "Headers" : [],
+        "DataRows" : [[],
+                      []],
+        "FootNotes" : [],
+        "Position" : ""}
+    ]
+})
