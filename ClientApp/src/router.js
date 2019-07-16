@@ -29,14 +29,9 @@ export default new Router({
             component: () => import('./views/Signin.vue')
         },
         {
-            path: '/create-character',
-            name: 'create-character',
-            component: () => import('./views/CreateCharacter.vue')
-        },
-        {
-            path: '/edit-character',
-            name: 'edit-character',
-            component: () => import('./views/EditCharacter.vue')
+            path: '/character',
+            name: 'character',
+            component: () => import('./views/Character.vue')
         }
     ]
 });

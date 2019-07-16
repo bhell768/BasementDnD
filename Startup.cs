@@ -103,6 +103,9 @@ namespace BasementDnD
             services.AddSingleton<IHelloRepository, HelloPostgresRepository>();
             services.AddSingleton<ICharacterService ,CharacterService>();
             services.AddSingleton<ILoginService ,LoginServiceMySql>();
+            services.AddSingleton<ICharacterOwnership, CharacterOwnership>();
+            services.AddSingleton<IRaceService, RaceService>();
+            services.AddSingleton<ISkillService, SkillService>();
         }
     }
 }
