@@ -105,6 +105,7 @@ namespace BasementDnD
             services.AddSingleton<ILoginService ,LoginServiceMySql>();
             services.AddSingleton<ICharacterOwnership, CharacterOwnership>();
             services.AddSingleton<IRaceService, RaceService>();
+            services.AddSingleton<ISkillService, SkillService>();
         }
     }
 }

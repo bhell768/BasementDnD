@@ -737,11 +737,16 @@ export default {
         async tempGetCoreRaces() {
             let response = await Api.get('./api/race/getcore');
             console.log(response.data);
+        },
+        async tempGetSkillTemplates() {
+            let response = await Api.get('./api/skill/get');
+            console.log(response.data);
         }
     },
     mounted: function() {
         this.getCharacters();
         this.tempGetCoreRaces();
+        this.tempGetSkillTemplates();
     },
     created: function() {
         this.characterTemplate.abilityScores = this.abilityTemplate;
