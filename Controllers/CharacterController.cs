@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using BasementDnD.Models.Character;
-using BasementDnD.Services.Abstract;
+using BasementRPG.Models.Character;
+using BasementRPG.Services.Abstract;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 
-namespace BasementDnD.Controllers
+namespace BasementRPG.Controllers
 {
     [Route("api/[controller]/[action]")]
     public class CharacterController : ControllerBase

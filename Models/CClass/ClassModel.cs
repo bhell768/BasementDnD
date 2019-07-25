@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BasementDnD.Models.CClass
+namespace BasementRPG.Models.CClass
 {
     public class Class
     {

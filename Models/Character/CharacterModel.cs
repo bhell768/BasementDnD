@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using MongoDB.Bson;
-using BasementDnD.Models.CClass;
+using BasementRPG.Models.CClass;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BasementDnD.Models.Character
+namespace BasementRPG.Models.Character
 {
     public class Character
     {

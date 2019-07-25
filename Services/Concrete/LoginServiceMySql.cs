@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using BasementDnD.Configuration;
+using BasementRPG.Configuration;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using System.Data.Common;
@@ -11,12 +11,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Logging;
-using BasementDnD.Services.Abstract;
-using BasementDnD.Models.Login;
-using BasementDnD.Models;
+using BasementRPG.Services.Abstract;
+using BasementRPG.Models.Login;
+using BasementRPG.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace BasementDnD.Services.Concrete
+namespace BasementRPG.Services.Concrete
 {
     public class LoginServiceMySql : MySqlRepository, ILoginService
     {    

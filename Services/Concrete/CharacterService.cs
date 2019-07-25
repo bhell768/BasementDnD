@@ -3,15 +3,15 @@ using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Common;
-using BasementDnD.Models.Character;
-using BasementDnD.Configuration;
-using BasementDnD.Services.Abstract;
+using BasementRPG.Models.Character;
+using BasementRPG.Configuration;
+using BasementRPG.Services.Abstract;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Http;
 
-namespace BasementDnD.Services.Concrete
+namespace BasementRPG.Services.Concrete
 {
     public class CharacterService: MySqlRepository, ICharacterService 
     {

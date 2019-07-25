@@ -1,4 +1,4 @@
-﻿using BasementDnD.Configuration;
+﻿using BasementRPG.Configuration;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System;
@@ -7,7 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BasementDnD.Repositories.Abstract
+namespace BasementRPG.Repositories.Abstract
 {
     public abstract class PostgresRepository
     {

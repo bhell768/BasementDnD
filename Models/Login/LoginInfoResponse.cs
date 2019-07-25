@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace BasementDnD.Models.Login
+namespace BasementRPG.Models.Login
 {
     public class LoginInfoResponse
     {

@@ -1,7 +1,7 @@
-﻿using BasementDnD.Repositories.Abstract;
+﻿using BasementRPG.Repositories.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BasementDnD.Controllers
+namespace BasementRPG.Controllers
 {
     [Route("api/[controller]/[action]")]
     public class HelloController : Controller

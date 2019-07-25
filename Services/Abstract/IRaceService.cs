@@ -2,9 +2,9 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using BasementDnD.Models.Race;
+using BasementRPG.Models.Race;
 
-namespace BasementDnD.Services.Abstract
+namespace BasementRPG.Services.Abstract
 {
     public interface IRaceService
     {

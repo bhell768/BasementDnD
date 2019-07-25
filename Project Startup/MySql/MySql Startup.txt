@@ -3,7 +3,7 @@
 //current password for dotnetServer = dotnetServerPassword
 
 //create database
-create database dndsql;
+create database rpgsql;
 //create table
 drop table if exists users;
 create table users(

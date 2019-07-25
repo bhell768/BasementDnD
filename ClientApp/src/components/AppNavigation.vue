@@ -109,7 +109,7 @@ export default {
     data() {
         return {
             drawer: false,
-            homeItem: { title: 'Basement DnD', to: '/' },
+            homeItem: { title: 'Basement RPG', to: '/' },
             leftItems: [
                 {
                     title: 'Character',

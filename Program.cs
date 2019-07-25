@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 
 
-namespace BasementDnD
+namespace BasementRPG
 {
     public class Program
     {

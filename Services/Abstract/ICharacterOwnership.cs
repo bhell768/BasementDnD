@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using BasementDnD.Models;
+using BasementRPG.Models;
 using System.Threading.Tasks;
 
-namespace BasementDnD.Services.Abstract
+namespace BasementRPG.Services.Abstract
 {
     public interface ICharacterOwnership
     {

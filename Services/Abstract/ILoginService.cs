@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using BasementDnD.Models.Login;
+using BasementRPG.Models.Login;
 using System.Threading.Tasks;
 
 
-namespace BasementDnD.Services.Abstract
+namespace BasementRPG.Services.Abstract
 {
     public interface ILoginService
     {

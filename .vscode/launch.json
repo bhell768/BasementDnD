@@ -10,7 +10,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/BasementDnD.dll",
+            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/BasementRPG.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

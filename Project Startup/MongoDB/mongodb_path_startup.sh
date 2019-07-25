@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mongod --dbpath ~/BasementDnDDB
+mongod --dbpath ~/BasementRPGDB

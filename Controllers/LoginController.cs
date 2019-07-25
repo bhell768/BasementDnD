@@ -1,13 +1,13 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using BasementDnD.Models;
-using BasementDnD.Models.Login;
+using BasementRPG.Models;
+using BasementRPG.Models.Login;
 using Newtonsoft.Json;
-using BasementDnD.Services.Abstract;
+using BasementRPG.Services.Abstract;
 using System;
 
-namespace BasementDnD.Controllers
+namespace BasementRPG.Controllers
 {
     [Route("api/[controller]/[action]")]
     public class LoginController : ControllerBase

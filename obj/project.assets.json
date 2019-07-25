@@ -13489,9 +13489,9 @@
   "project": {
     "version": "1.0.3",
     "restore": {
-      "projectUniqueName": "/home/helleben270/repos/BasementDnD/BasementDnD.csproj",
-      "projectName": "BasementDnD",
-      "projectPath": "/home/helleben270/repos/BasementDnD/BasementDnD.csproj",
+      "projectUniqueName": "/home/helleben270/repos/BasementDnD/BasementRPG.csproj",
+      "projectName": "BasementRPG",
+      "projectPath": "/home/helleben270/repos/BasementDnD/BasementRPG.csproj",
       "packagesPath": "/home/helleben270/.nuget/packages/",
       "outputPath": "/home/helleben270/repos/BasementDnD/obj/",
       "projectStyle": "PackageReference",

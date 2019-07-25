@@ -1,11 +1,11 @@
 ﻿using Dapper;
-using BasementDnD.Configuration;
-using BasementDnD.Repositories.Abstract;
+using BasementRPG.Configuration;
+using BasementRPG.Repositories.Abstract;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 
-namespace BasementDnD.Repositories.Concrete
+namespace BasementRPG.Repositories.Concrete
 {
     public class HelloPostgresRepository : PostgresRepository, IHelloRepository
     {

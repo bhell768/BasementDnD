@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BasementDnD.Repositories.Abstract
+namespace BasementRPG.Repositories.Abstract
 {
     public interface IHelloRepository
     {

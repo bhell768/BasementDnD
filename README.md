@@ -1,5 +1,5 @@
-# Basement DnD
-This is the Basement DnD web application. It is a DnD campaign management tool. Currently under development will have character sheet creation, map editor and viewer, DM tools, messaging, and should integrate well whether players are remote or in person and just want some help with organization. 
+# Basement RPG
+This is the Basement RPG web application. It is a RPG campaign management tool. Currently under development will have character sheet creation, map editor and viewer, DM tools, messaging, and should integrate well whether players are remote or in person and just want some help with organization. 
 
 
 This project used the Software Ateliers ASP.NET Core Vue Starter

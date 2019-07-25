@@ -4,12 +4,12 @@ using System.Data.Common;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using BasementDnD.Configuration;
+using BasementRPG.Configuration;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using BasementDnD.Services.Abstract;
+using BasementRPG.Services.Abstract;
 
-namespace BasementDnD.Services.Concrete
+namespace BasementRPG.Services.Concrete
 {
     public class CharacterOwnership : MySqlRepository, ICharacterOwnership
     {

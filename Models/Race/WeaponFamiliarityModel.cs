@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BasementDnD.Models.Race
+namespace BasementRPG.Models.Race
 {
     public class WeaponFamiliarity
     {

@@ -3,9 +3,9 @@ using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
-using BasementDnD.Configuration;
+using BasementRPG.Configuration;
 
-namespace BasementDnD.Services.Abstract
+namespace BasementRPG.Services.Abstract
 {
     public abstract class MySqlRepository : IDisposable
     {
