@@ -10,7 +10,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@mdi/font": "^2.6.95",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "material-design-icons-iconfont": "^5.0.1",
     "register-service-worker": "^1.6.2",
     "roboto-fontface": "*",
